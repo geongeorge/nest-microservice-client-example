@@ -1,13 +1,23 @@
 import { Module } from '@nestjs/common';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SharedModule } from './shared/shared.module';
-import { UserModule } from './modules/user/user.module';
-import { PostModule } from './modules/post/post.module';
+
+const PrintMicroservice = {
+  provide: 'PRINT_SERVICE',
+  useFactory: () =>
+    ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: 'localhost',
+        port: 4000,
+      },
+    }),
+};
 
 @Module({
-  imports: [SharedModule, UserModule, PostModule],
+  imports: [],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [PrintMicroservice, AppService],
 })
 export class AppModule {}
