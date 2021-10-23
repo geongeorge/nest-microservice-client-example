@@ -1,9 +1,8 @@
-import { Injectable, BadGatewayException, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 
 @Injectable()
 export class MailService implements OnModuleInit {
   transporter = null;
-  constructor(private readonly configService: ConfigService) {}
 
   onModuleInit() {
     this._initializeTranporter();
